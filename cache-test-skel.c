@@ -25,7 +25,9 @@ mystery2:
 /* 
    Returns the size (in B) of the cache
 */
-
+// Flush cache then do one access from address 0. Then fill every block in the cache until we reach
+// the beginning of the cache again and access cache with address 0 misses. This indicates that we
+// filled the entire cache so we can return size.
 int get_cache_size(int block_size) {
   int cachesize = 0;
   int check = block_size;
@@ -46,6 +48,9 @@ int get_cache_size(int block_size) {
 /*
    Returns the associativity of the cache
 */
+// Flush cache then do one access from address 0. Then do another access from an address a cache size
+// away. This will fill the next way if there is another. Keep doing this until access cache with address 0
+// misses. This indicates that all ways have been filled and we can return the associativity.
 int get_cache_assoc(int size) {
   int assoc = 0;
   flush_cache();
@@ -63,6 +68,8 @@ int get_cache_assoc(int size) {
 /*
    Returns the size (in B) of each block in the cache.
 */
+// Do one access to cache from address 0 then do accesses in increments of 1 until a miss
+// that indicates the end of the first block
 int get_block_size() {
   int x = 0;
   int size = 0;
